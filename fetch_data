@@ -1,0 +1,16 @@
+import asyncio
+
+async def fetch_data(url):
+    print(f"Fetching {url}...")
+    await asyncio.sleep(1)  # 模拟网络延迟
+    return f"data from {url}"
+
+async def main():
+    urls = ["http://example.com/1", "http://example.com/2", "http://example.com/3"]
+    tasks = [fetch_data(url) for url in urls]
+    results = await asyncio.gather(*tasks)
+    for result in results:
+        print(result)
+
+# 运行异步主函数
+asyncio.run(main())
