@@ -1,0 +1,10 @@
+fn print_longest<'a>(x: &'a str, y: &'a str) {
+    let longest = if x.len() > y.len() { x } else { y };
+    println!("The longest string is '{}'", longest);
+}
+
+fn main() {
+    let string1 = "short string";
+    let string2 = "much longer string indeed!";
+    print_longest(string1, string2);
+}
