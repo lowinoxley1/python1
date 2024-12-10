@@ -1,0 +1,37 @@
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from torchvision import datasets, transforms
+
+# 数据准备
+transform = transforms.Compose([transforms.ToTensor()])
+train_data = datasets.MNIST(root='./data', train=True, download=True, transform=transform)
+
+train_loader = torch.utils.data.DataLoader(train_data, batch_size=32, shuffle=True)
+
+# 定义模型
+class SimpleCNN(nn.Module):
+    def __init__(self):
+        super(SimpleCNN, self).__init__()
+        self.conv1 = nn.Conv2d(1, 32, kernel_size=3, stride=1, padding=1)
+        self.fc = nn.Linear(32 * 28 * 28, 10)
+
+    def forward(self, x):
+        x = torch.relu(self.conv1(x))
+        x = x.view(x.size(0), -1)
+        x = self.fc(x)
+        return x
+
+model = SimpleCNN()
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.Adam(model.parameters(), lr=0.001)
+
+# 训练
+for epoch in range(3):
+    for images, labels in train_loader:
+        optimizer.zero_grad()
+        outputs = model(images)
+        loss = criterion(outputs, labels)
+        loss.backward()
+        optimizer.step()
+    print(f"Epoch {epoch+1}, Loss: {loss.item():.4f}")
