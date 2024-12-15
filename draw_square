@@ -1,0 +1,16 @@
+import turtle
+
+def draw_square(size):
+    for _ in range(4):
+        turtle.forward(size)
+        turtle.right(90)
+
+def draw_pattern():
+    turtle.speed(0)
+    for _ in range(36):
+        draw_square(100)
+        turtle.right(10)
+
+if __name__ == "__main__":
+    draw_pattern()
+    turtle.done()
