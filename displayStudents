@@ -1,0 +1,31 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+struct Student {
+    std::string name;
+    int grade;
+};
+
+void addStudent(std::vector<Student>& students, const std::string& name, int grade) {
+    students.push_back({name, grade});
+}
+
+void displayStudents(const std::vector<Student>& students) {
+    std::cout << "Student List:\n";
+    for (const auto& student : students) {
+        std::cout << "Name: " << student.name << ", Grade: " << student.grade << "\n";
+    }
+}
+
+int main() {
+    std::vector<Student> students;
+
+    addStudent(students, "Alice", 85);
+    addStudent(students, "Bob", 90);
+    addStudent(students, "Charlie", 78);
+
+    displayStudents(students);
+
+    return 0;
+}
