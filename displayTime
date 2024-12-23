@@ -1,0 +1,7 @@
+function displayTime() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString();
+    console.log("Current Time:", timeString);
+}
+
+setInterval(displayTime, 1000);
