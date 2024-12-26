@@ -1,0 +1,11 @@
+use std::net::TcpStream;
+use std::io::{self, Write, Read};
+
+fn main() {
+    let mut stream = TcpStream::connect("127.0.0.1:8080").unwrap();
+    stream.write(b"Hello, server!").unwrap();
+
+    let mut buffer = [0; 512];
+    stream.read(&mut buffer).unwrap();
+    println!("Response: {}", String::from_utf8_lossy(&buffer));
+}
