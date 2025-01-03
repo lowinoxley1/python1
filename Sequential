@@ -1,0 +1,10 @@
+from keras.models import Sequential
+from keras.layers import Dense
+
+generator = Sequential([
+    Dense(128, activation='relu', input_dim=100),
+    Dense(256, activation='relu'),
+    Dense(784, activation='sigmoid')
+])
+
+generator.summary()
