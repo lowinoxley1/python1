@@ -1,0 +1,29 @@
+class PluginMeta(type):
+    def __init__(cls, name, bases, attrs):
+        # 如果是基类，则初始化插件列表
+        if not hasattr(cls, 'plugins'):
+            cls.plugins = []
+        else:
+            # 自动注册插件
+            cls.plugins.append(cls)
+        super().__init__(name, bases, attrs)
+
+class Plugin(metaclass=PluginMeta):
+    def run(self):
+        raise NotImplementedError("插件必须实现 run 方法")
+
+# 插件实现示例
+class PluginA(Plugin):
+    def run(self):
+        print("PluginA 正在运行")
+
+class PluginB(Plugin):
+    def run(self):
+        print("PluginB 正在运行")
+
+if __name__ == '__main__':
+    print("注册的插件：")
+    for plugin in Plugin.plugins:
+        print(plugin.__name__)
+        instance = plugin()
+        instance.run()
