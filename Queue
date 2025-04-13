@@ -1,0 +1,32 @@
+import threading
+import requests
+from queue import Queue
+
+urls = [
+    'https://example.com/page1',
+    'https://example.com/page2',
+    'https://example.com/page3',
+    # ...更多URL
+]
+
+def fetch_url(q):
+    while not q.empty():
+        url = q.get()
+        try:
+            response = requests.get(url)
+            print(f"{url}: {len(response.content)} bytes")
+        except Exception as e:
+            print(f"Error fetching {url}: {e}")
+        q.task_done()
+
+q = Queue()
+for url in urls:
+    q.put(url)
+
+threads = []
+for _ in range(5):
+    t = threading.Thread(target=fetch_url, args=(q,))
+    t.start()
+    threads.append(t)
+
+q.join()
