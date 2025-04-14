@@ -1,0 +1,18 @@
+const handler = {
+  set(obj, prop, value) {
+    console.log(`Setting ${prop} to ${value}`);
+    obj[prop] = value;
+    obj._observers.forEach(fn => fn(prop, value));
+    return true;
+  }
+};
+
+function createObservableObject(obj) {
+  obj._observers = [];
+  obj.observe = fn => obj._observers.push(fn);
+  return new Proxy(obj, handler);
+}
+
+const state = createObservableObject({ count: 0 });
+state.observe((prop, value) => console.log(`Observed: ${prop} changed to ${value}`));
+state.count = 5;
