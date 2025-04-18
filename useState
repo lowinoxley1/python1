@@ -1,0 +1,32 @@
+import React, { useState } from 'react';
+
+type Field = { label: string, type: 'text' | 'number' };
+
+export default function FormBuilder() {
+  const [fields, setFields] = useState<Field[]>([]);
+  const [values, setValues] = useState<{ [key: string]: string }>({});
+
+  const addField = (type: Field['type']) => {
+    setFields([...fields, { label: `Field ${fields.length + 1}`, type }]);
+  };
+
+  return (
+    <div>
+      <button onClick={() => addField('text')}>Add Text</button>
+      <button onClick={() => addField('number')}>Add Number</button>
+      <form>
+        {fields.map((field, i) => (
+          <div key={i}>
+            <label>{field.label}</label>
+            <input
+              type={field.type}
+              onChange={(e) =>
+                setValues({ ...values, [field.label]: e.target.value })
+              }
+            />
+          </div>
+        ))}
+      </form>
+    </div>
+  );
+}
